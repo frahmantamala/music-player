@@ -1,6 +1,6 @@
 # music-player
 
-This project was built using [Angular](https://angular.io/)  v8.3.X
+This project was built using [Angular](https://angular.io/)  v12.1.X
 
 This is music player which consume song list from Itunes Api
 
