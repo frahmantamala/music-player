@@ -17,6 +17,7 @@ This is music player which consume song list from Itunes Api
 
 ### Angular Lean (development)
 npm install
+
 Run `ng serve` to run dev server with hot reload.
 
 Navigate to `http://localhost:4200/` to open.
