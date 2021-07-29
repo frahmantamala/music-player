@@ -1,20 +1,58 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="dark">
     <ion-title>
-      Blank
+      Music Player
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item button *ngFor="let song of ituneSongList.results" (click)="startTrack(song)">
+      <ion-avatar slot="start">
+        <img [src]="song.artworkUrl100">
+      </ion-avatar>
+      <ion-label [color]="song === activeTrack ? 'success' : 'light'">
+        <h2>{{song.artistName}}</h2>
+        <h3>{{song.collectionCensoredName}}</h3>
+        <p>{{song.trackName}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
+
+<ion-footer *ngIf="activeTrack">
+  <ion-toolbar color="dark">
+    <ion-row>
+      <ion-col size="12" class="ion-text-center">
+        {{activeTrack.trackName}}
+      </ion-col>
+      <ion-col size="12">
+        <ion-range #range [(ngModel)]="progress" max="100" color="success" (touchend)="seekTrack()"
+          (mouseup)="seekTrack()"></ion-range>
+      </ion-col>
+      <ion-col size="12" class="ion-text-center">
+        <ion-button fill="clear" (click)="prevTrack()" color="light">
+          <ion-icon slot="icon-only" name="play-skip-back"></ion-icon>
+        </ion-button>
+
+        <ion-button fill="clear" (click)="togglePlayer(false)" *ngIf="!isPlaying" color="light">
+          <ion-icon slot="icon-only" name="play"></ion-icon>
+        </ion-button>
+
+        <ion-button fill="clear" (click)="togglePlayer(true)" *ngIf="isPlaying" color="light">
+          <ion-icon slot="icon-only" name="pause"></ion-icon>
+        </ion-button>
+
+        <ion-button fill="clear" (click)="nextTrack()" color="light">
+          <ion-icon slot="icon-only" name="play-skip-forward"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
